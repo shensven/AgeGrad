@@ -10,7 +10,6 @@
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
   "dependencies": {
-    "@ant-design/react-native": "^4.0.7",
     "react": "17.0.1",
     "react-native": "0.64.0"
   },
