@@ -1,25 +1,22 @@
-import React, {Component} from 'react';
-import {Dimensions, StyleSheet, Text, View} from 'react-native';
+import React from 'react';
+import {StyleSheet, View} from 'react-native';
+import {Appbar, Button} from 'react-native-paper';
 
-const halfHeight = Dimensions.get('window').height;
-
-export default class AgeGrad extends Component {
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.maintext}> AgeGrad </Text>
+const AgeGrad = () => {
+  return (
+    <View>
+      <Appbar.Header>
+        <Appbar.Content title="AgeGrad" />
+      </Appbar.Header>
+      <View>
+        <Button mode="contained" onPress={() => console.log('AgeGrad')}>
+          AgeGrad
+        </Button>
       </View>
-    );
-  }
-}
-const styles = StyleSheet.create({
-  container: {
-    height: halfHeight,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  maintext: {
-    fontSize: 42,
-    fontWeight: '500',
-  },
-});
+    </View>
+  );
+};
+
+const myStyles = StyleSheet.create({});
+
+export default AgeGrad;
