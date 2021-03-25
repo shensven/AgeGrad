@@ -1,22 +1,38 @@
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
-import {Appbar, Button} from 'react-native-paper';
+import {ScrollView, StyleSheet, View} from 'react-native';
+import {Appbar, Button, TextInput} from 'react-native-paper';
 
-const AgeGrad = () => {
+export default function AgeGrad() {
   return (
-    <View>
+    <ScrollView>
       <Appbar.Header>
         <Appbar.Content title="AgeGrad" />
       </Appbar.Header>
-      <View>
+      <View style={ageStyles.root}>
+        <TextInput
+          mode="outlined"
+          label="Current Age"
+          value="Type something"
+          dense
+          disabled
+          style={ageStyles.currentAge}
+        />
+
         <Button mode="contained" onPress={() => console.log('AgeGrad')}>
           AgeGrad
         </Button>
       </View>
-    </View>
+    </ScrollView>
   );
-};
+}
 
-const myStyles = StyleSheet.create({});
-
-export default AgeGrad;
+const ageStyles = StyleSheet.create({
+  root: {
+    flex: 1,
+    padding: 10,
+  },
+  currentAge: {
+    marginTop: 20,
+    marginBottom: 20,
+  },
+});
