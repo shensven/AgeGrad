@@ -1,6 +1,6 @@
 import React from 'react';
 import {ScrollView, StyleSheet, View} from 'react-native';
-import {Appbar, Button, IconButton, TextInput} from 'react-native-paper';
+import {Appbar, Button, TextInput} from 'react-native-paper';
 
 export default function AgeGrad() {
   return (
