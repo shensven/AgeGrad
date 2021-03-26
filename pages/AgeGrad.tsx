@@ -1,12 +1,16 @@
 import React from 'react';
 import {ScrollView, StyleSheet, View} from 'react-native';
-import {Appbar, Button, TextInput} from 'react-native-paper';
+import {Appbar, Button, IconButton, TextInput} from 'react-native-paper';
 
 export default function AgeGrad() {
   return (
     <ScrollView>
       <Appbar.Header>
         <Appbar.Content title="AgeGrad" />
+        <Appbar.Action
+          icon="dots-vertical"
+          onPress={() => console.log('AgeGrad')}
+        />
       </Appbar.Header>
       <View style={ageStyles.root}>
         <TextInput
