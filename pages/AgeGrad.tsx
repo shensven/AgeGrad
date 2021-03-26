@@ -29,7 +29,7 @@ export default function AgeGrad() {
 const ageStyles = StyleSheet.create({
   root: {
     flex: 1,
-    padding: 10,
+    padding: 20,
   },
   currentAge: {
     marginTop: 20,
