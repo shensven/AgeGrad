@@ -1,6 +1,12 @@
 import React from 'react';
 import {ScrollView, StyleSheet, View} from 'react-native';
-import {Appbar, Button, TextInput} from 'react-native-paper';
+import {Appbar, Chip} from 'react-native-paper';
+
+// const birthdayChip = () => {
+//   <Chip icon="information" onPress={() => console.log('Pressed')}>
+//     2020-01-01
+//   </Chip>;
+// };
 
 export default function AgeGrad() {
   return (
@@ -13,18 +19,22 @@ export default function AgeGrad() {
         />
       </Appbar.Header>
       <View style={ageStyles.root}>
-        <TextInput
-          mode="outlined"
-          label="Current Age"
-          value="Type something"
-          dense
-          disabled
-          style={ageStyles.currentAge}
-        />
-
-        <Button mode="contained" onPress={() => console.log('AgeGrad')}>
-          AgeGrad
-        </Button>
+        <View>
+          <Chip
+            icon="account-circle"
+            onPress={() => console.log('Pressed')}
+            style={ageStyles.currentAge}>
+            1
+          </Chip>
+        </View>
+        <View>
+          <Chip
+            icon="cake-variant"
+            onPress={() => console.log('Pressed')}
+            style={ageStyles.settings}>
+            2020-01-01 17:00
+          </Chip>
+        </View>
       </View>
     </ScrollView>
   );
@@ -33,10 +43,13 @@ export default function AgeGrad() {
 const ageStyles = StyleSheet.create({
   root: {
     flex: 1,
-    padding: 20,
+    paddingLeft: 20,
+    paddingRight: 20,
   },
   currentAge: {
+    marginTop: 36,
+  },
+  settings: {
     marginTop: 20,
-    marginBottom: 20,
   },
 });
