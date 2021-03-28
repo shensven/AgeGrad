@@ -1,28 +1,33 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Dimensions, Platform, ScrollView, StyleSheet, View} from 'react-native';
 import {Appbar, Button, Chip, TextInput} from 'react-native-paper';
 import DateTimePicker, {Event} from '@react-native-community/datetimepicker';
 
-const WINDOW_HEIGHT = Dimensions.get('window').height;
-const HALF_WINDOW_HEIGHT = WINDOW_HEIGHT / 2;
-const UNIX_TIMESTAMP_NOW = Math.round(new Date().getTime() / 1000);
+const WINDOW_HEIGHT: number = Dimensions.get('window').height;
+const HALF_WINDOW_HEIGHT: number = WINDOW_HEIGHT / 2;
+const UNIX_TIMESTAMP_NOW: number = Math.round(new Date().getTime() / 1000);
 
 const AgeGrad = () => {
+  const [utcTimeNow] = useState(new Date());
   const [datePickerShowAndroid, setDatePickerShowAndroid] = useState(false);
-  const [birthdayIOS, setBirthdayIOS] = useState();
-  const [currentAgeIOS, setCurrentAgeIOS]: any = useState('0');
-
-  const [date, setDate] = useState(new Date());
+  const [unixBirthdayIOS, setUnixBirthdayIOS] = useState<number>();
+  const [currentAgeIOS, setCurrentAgeIOS] = useState('0');
 
   const onPress = () => {
     console.log('hola AgeGrad');
   };
 
-  const getBirthdayIOS = (arg: any) => {
-    const BIRTHDAY_UNIX_TIMESTAMP: any = Date.parse(arg) / 1000;
-    setBirthdayIOS(BIRTHDAY_UNIX_TIMESTAMP);
-    console.log(birthdayIOS); // 此处有问题，birthdayIOS 不会马上回调，需要使用 useEffect
+  const getBirthdayIOS = (arg: string) => {
+    // Convert UTC Date & Time to Unix Timestamp
+    const UNIX_TIMESTAMP_BIRTHDAY: number = Date.parse(arg) / 1000;
+    setUnixBirthdayIOS(UNIX_TIMESTAMP_BIRTHDAY);
   };
+
+  useEffect(() => {
+    const UNIX_TIMESTAMP_DIFF =
+      UNIX_TIMESTAMP_NOW - (unixBirthdayIOS as number);
+    setCurrentAgeIOS(String(UNIX_TIMESTAMP_DIFF));
+  }, [unixBirthdayIOS]);
 
   const popupDatePickerModalAndroid = () => {
     setDatePickerShowAndroid(true);
@@ -63,9 +68,9 @@ const AgeGrad = () => {
           {/* Date & Time Picker Button */}
           <View style={ageStyles.iOSDateTimePickerBox}>
             <DateTimePicker
-              value={date}
+              value={utcTimeNow}
               mode="datetime"
-              onChange={(evt, newDateTimeIOS) => {
+              onChange={(evt: Event, newDateTimeIOS: any) => {
                 getBirthdayIOS(newDateTimeIOS);
               }}
             />
