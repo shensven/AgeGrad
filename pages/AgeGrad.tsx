@@ -9,9 +9,18 @@ const UNIX_TIMESTAMP_NOW: number = Math.round(new Date().getTime() / 1000);
 
 const AgeGrad = () => {
   const [utcTimeNow] = useState(new Date());
-  const [datePickerShowAndroid, setDatePickerShowAndroid] = useState(false);
-  const [unixBirthdayIOS, setUnixBirthdayIOS] = useState<number>();
-  const [currentAgeIOS, setCurrentAgeIOS] = useState('0');
+
+  const [datePickerShow_android, setDatePickerShow_android] = useState(false);
+  const [timePickerShow_android, setTimePickerShow_android] = useState(false);
+
+  const [unixBirthday_iOS, setunixBirthday_iOS] = useState<number>();
+
+  const [
+    unixBirthDate_android,
+    setUnixDateBirthday_android,
+  ] = useState<number>();
+
+  const [currentAge_iOS, setcurrentAge_iOS] = useState('0');
 
   const onPress = () => {
     console.log('hola AgeGrad');
@@ -20,22 +29,37 @@ const AgeGrad = () => {
   const getBirthdayIOS = (arg: string) => {
     // Convert UTC Date & Time to Unix Timestamp
     const UNIX_TIMESTAMP_BIRTHDAY: number = Date.parse(arg) / 1000;
-    setUnixBirthdayIOS(UNIX_TIMESTAMP_BIRTHDAY);
+    setunixBirthday_iOS(UNIX_TIMESTAMP_BIRTHDAY);
   };
 
   useEffect(() => {
     const UNIX_TIMESTAMP_DIFF =
-      UNIX_TIMESTAMP_NOW - (unixBirthdayIOS as number);
-    setCurrentAgeIOS(String(UNIX_TIMESTAMP_DIFF));
-  }, [unixBirthdayIOS]);
+      UNIX_TIMESTAMP_NOW - (unixBirthday_iOS as number);
+    setcurrentAge_iOS(String(UNIX_TIMESTAMP_DIFF));
+  }, [unixBirthday_iOS]);
 
-  const popupDatePickerModalAndroid = () => {
-    setDatePickerShowAndroid(true);
+  const popupTimePicker_android = () => {
+    setTimePickerShow_android(true);
   };
 
-  const dismissDatePickerAndroid = (evt: Event) => {
+  const dismissDatePicker_android = () => {
+    setDatePickerShow_android(false);
+  };
+
+  const dismissTimePicker_android = (evt: Event) => {
     if (evt.type === 'dismissed') {
-      setDatePickerShowAndroid(false);
+      setTimePickerShow_android(false);
+    }
+  };
+
+  const getDatePickerAction_android = (evt: Event, newDateAndroid: any) => {
+    if (evt.type === 'dismissed') {
+      setDatePickerShow_android(false);
+    } else if (evt.type === 'set') {
+      setDatePickerShow_android(false);
+      const UNIX_TIMESTAMP_DATE_BIRTHDAY: number =
+        Date.parse(newDateAndroid) / 1000;
+      setUnixDateBirthday_android(UNIX_TIMESTAMP_DATE_BIRTHDAY);
     }
   };
 
@@ -58,7 +82,7 @@ const AgeGrad = () => {
         <View style={ageStyles.root}>
           <TextInput
             label="Current Age"
-            value={currentAgeIOS}
+            value={currentAge_iOS}
             mode="outlined"
             dense
             disabled
@@ -78,7 +102,9 @@ const AgeGrad = () => {
 
           {/* debug */}
           <View style={ageStyles.androidDebugBtnBox}>
-            <Button mode="contained" onPress={() => console.log('')}>
+            <Button
+              mode="contained"
+              onPress={() => console.log(unixBirthday_iOS)}>
               debug
             </Button>
           </View>
@@ -104,7 +130,7 @@ const AgeGrad = () => {
           {/* Current Age */}
           <TextInput
             label="Current Age"
-            value="1"
+            value={currentAge_iOS}
             mode="outlined"
             dense
             disabled
@@ -119,17 +145,28 @@ const AgeGrad = () => {
             right={
               <TextInput.Icon
                 name="cake-variant"
-                onPress={popupDatePickerModalAndroid}
+                onPress={() => setDatePickerShow_android(true)}
               />
             }
             style={ageStyles.androidBirthdayTextInputBox}
           />
 
           {/* DatePickerModal */}
-          {datePickerShowAndroid && (
+          {datePickerShow_android && (
             <DateTimePicker
-              value={date}
-              onChange={evt => dismissDatePickerAndroid(evt)}
+              value={utcTimeNow}
+              onChange={(evt: Event, newDateAndroid: any) =>
+                getDatePickerAction_android(evt, newDateAndroid)
+              }
+            />
+          )}
+
+          {/* TimePickerModal */}
+          {timePickerShow_android && (
+            <DateTimePicker
+              mode="time"
+              value={utcTimeNow}
+              onChange={evt => dismissTimePicker_android(evt)}
             />
           )}
 
@@ -137,7 +174,7 @@ const AgeGrad = () => {
           <View style={ageStyles.androidDebugBtnBox}>
             <Button
               mode="contained"
-              onPress={() => console.log(datePickerShowAndroid)}>
+              onPress={() => console.log(datePickerShow_android)}>
               debug
             </Button>
           </View>
@@ -173,6 +210,7 @@ const ageStyles = StyleSheet.create({
   currentAge: {
     marginTop: 36,
   },
+
   iOSDateTimePickerBox: {
     marginTop: 20,
   },
